@@ -1,0 +1,41 @@
+# WiMNet group style, from the group's reference guidelines:
+#
+#   Conference:  Authors, "Title," Conference, Month, Year
+#                booktitle = {Proc. ACM MOBICOM'07}, month = {Sept.}
+#   Journal:     Authors, "Title," Journal, Volume, Number, Pages, Year
+#                journal = {IEEE/ACM Trans. Netw.}
+#
+# This style changes the bib file. Whatever renders the bibliography (a CSL style in Zotero, or
+# a .bst in LaTeX) styles the entries again and decides punctuation, quotes, italics, "in", and
+# "et al.". Check the result.
+#
+# Credit to Harris Ransom for GilStyle.csl
+
+all:
+  authors: keep             # Formerly initials ("Zussman, G."), but no longer used
+  protect_capitals: add     # "{MANET}": braces keep acronyms capitalized
+  doi: remove               # the guidelines print no DOIs (hidden as OPTdoi, not deleted)
+  url: remove               # ...or URLs, except for web pages (see "other" below)
+  remove_fields: [abstract, keywords, file, note]   # never printed
+
+conference:
+  venue_names: abbreviated  # with the three below: "Proc. ACM MobiCom'07"
+  venue_prefix: add
+  venue_sponsor: add
+  venue_year: add
+  pages: remove             # Conference, Month, Year: no pages
+  remove_fields: [abstract, keywords, file, note, address]
+
+journal:
+  venue_names: abbreviated  # "IEEE/ACM Trans. Netw."
+  pages: add                # Journal, Volume, Number, Pages, Year
+  month: remove             # ...and no month
+
+techreport:
+  pages: remove             # reports print title, number and publisher only
+
+book:
+  pages: remove
+
+other:
+  url: keep                 # web pages print their link

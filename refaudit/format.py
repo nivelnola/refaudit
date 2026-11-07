@@ -1,6 +1,7 @@
 """Formatting rules: capitalization, venue names, authors, and field removal."""
 from __future__ import annotations
 
+import functools
 import re
 from pathlib import Path
 
@@ -261,14 +262,26 @@ def _venue_key(name: str) -> str:
     return " ".join(words)
 
 
-def _load_venue_file(path: Path) -> dict:
+# Used only if no venue file in use declares its sponsors.
+DEFAULT_SPONSORS = ["IEEE", "ACM", "USENIX"]
+
+
+def _load_venue_file(path: Path) -> tuple[dict, list]:
+    """A venue file's names, {"Full or alternate name": abbreviation}, and its sponsors: the
+    organizations that can start a venue's name in that field, from its `sponsors:` line."""
     try:
         data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     except yaml.YAMLError as err:
         raise ConfigError(f"Couldn't read venue file {path}: {err}") from err
     if not isinstance(data, dict):
         raise ConfigError(f'Venue file {path} must have lines like "Full Name": Abbreviation.')
-    return {str(k): str(v) for k, v in data.items()}
+    sponsors = data.pop("sponsors", [])
+    if not isinstance(sponsors, list) or not all(isinstance(s, str) and s.strip() for s in sponsors):
+        raise ConfigError(f"In {path}, sponsors must be a list of names, like [IEEE, ACM].")
+    for name, abbrev in data.items():
+        if isinstance(abbrev, (list, dict)) or abbrev is None:
+            raise ConfigError(f'In {path}, "{name}" must have one abbreviation, like "{name}": ABBR.')
+    return {str(k): str(v) for k, v in data.items()}, [s.strip() for s in sponsors]
 
 
 class _VenueTable:
@@ -279,8 +292,11 @@ class _VenueTable:
         self.by_key: dict[str, tuple[str, str]] = {}
         self.full_of: dict[str, str] = {}
         self.abbreviation_keys: set[str] = set()
+        self.sponsors: list[str] = []
         for path in files:
-            for full, abbrev in _load_venue_file(path).items():
+            names, sponsors = _load_venue_file(path)
+            self.sponsors += [s for s in sponsors if s not in self.sponsors]
+            for full, abbrev in names.items():
                 self.full_of.setdefault(abbrev, full)
                 self.names.setdefault(abbrev, []).append(full)
                 entry = (self.full_of[abbrev], abbrev)
@@ -316,6 +332,10 @@ class Venues:
     def __init__(self, builtin_files: list[Path], custom_file: Path | None = None):
         self.custom = _VenueTable([custom_file] if custom_file else [])
         self.builtin = _VenueTable(builtin_files)
+        # Sponsors: those declared by your file and the venue lists in use, combined.
+        declared = self.custom.sponsors + [s for s in self.builtin.sponsors if s not in self.custom.sponsors]
+        self.sponsors = declared or list(DEFAULT_SPONSORS)
+        self.sponsor_re = sponsor_pattern(tuple(self.sponsors))
         # If the user redefines one name of a venue, its other built-in names follow.
         self.replaced: dict[str, tuple[str, str]] = {}
         for key, (_, abbrev) in self.builtin.by_key.items():
@@ -347,7 +367,7 @@ class Venues:
         if found:
             names += self.builtin.names.get(found[1], [])
         for listed in names:
-            m = _SPONSOR.match(re.sub(r"^The\s+", "", listed))
+            m = self.sponsor_re.match(re.sub(r"^The\s+", "", listed))
             if m:
                 return m.group(1)
         return ""
@@ -359,9 +379,24 @@ class Venues:
 
 # "~" is LaTeX's non-breaking space, so it separates words like a space: "Proc.~IEEE ICT".
 _PROC = re.compile(r"^(proc\.?|proceedings)([\s~]+of)?([\s~]+the)?[\s~]+", re.I)
-_SPONSOR = re.compile(r"^((?:IEEE|ACM|USENIX)(?:[/-](?:IEEE|ACM|CVF|RSJ|SIAM|ION))*)[\s~]+")
 _YEAR_END = re.compile(r"[\s~]*(['’](\d\d)|\b((?:19|20)\d\d))$")
 _YEAR_START = re.compile(r"^((?:19|20)\d\d)[\s~]+")
+
+
+@functools.lru_cache(maxsize=16)
+def sponsor_pattern(sponsors: tuple) -> re.Pattern:
+    """A sponsor at the start of a venue name, alone or joint: "IEEE ", "IEEE/ACM ", "ACM-SIAM "."""
+    if not sponsors:
+        return re.compile(r"(?!)")  # matches nothing
+    one = "|".join(re.escape(s) for s in sorted(sponsors, key=len, reverse=True))
+    return re.compile(rf"^((?:{one})(?:[/-](?:{one}))*)[\s~]+")
+
+
+def _written_sponsor(original: str, venues) -> str:
+    """The sponsor the entry's own venue name starts with, after any "Proc." or year."""
+    text = _YEAR_START.sub("", _PROC.sub("", original.strip()))
+    m = venues.sponsor_re.match(text + " ")
+    return m.group(1) if m else ""
 
 
 def _separator(matched: str, word: str) -> str:
@@ -389,7 +424,7 @@ def style_venue(value: str, year: int | None, rules: dict, venues: Venues,
     m = _YEAR_START.match(rest)
     if m and not year_text:
         year_text, rest = m.group(1), rest[m.end():]
-    sponsor, core, m = "", rest, _SPONSOR.match(rest)
+    sponsor, core, m = "", rest, venues.sponsor_re.match(rest)
     # "USENIX Security" is the name itself, since "Security" alone would mean nothing.
     if m and (venues.find(rest[m.end():]) or not venues.find(rest)):
         sponsor, core = m.group(1), rest[m.end():]
@@ -398,26 +433,42 @@ def style_venue(value: str, year: int | None, rules: dict, venues: Venues,
     known = venues.find(core)
     short = not re.search(r"[\s~]", core) or bool(known and bib.fold(known[1]) == bib.fold(core))
 
+    # What the entry's own venue name had, for "keep": shortening it mustn't drop those parts.
+    written_prefix = _PROC.match(original.strip())
+    written_body = _PROC.sub("", original.strip())
+    written_year = _YEAR_END.search(written_body) or _YEAR_START.match(written_body)
+
     if rules["venue_prefix"] == "remove":
         prefix = ""
     elif rules["venue_prefix"] == "add" and short and not prefix:
         prefix = "Proc."
+    elif rules["venue_prefix"] == "keep" and short and not prefix and written_prefix:
+        # "Proceedings of the" becomes "Proc.", which reads well before an abbreviation.
+        prefix = "Proc."
+        prefix_sep = "~" if "~" in written_prefix.group() else " "
 
+    given = _written_sponsor(original, venues)
+    own = venues.sponsor_re.match(core)  # "USENIX Security" already has one
     if rules["venue_sponsor"] == "remove":
         sponsor = ""
+    elif rules["venue_sponsor"] == "keep":
+        # Shortening "Proc. ACM SIGCOMM'23" to "SIGCOMM" mustn't drop the ACM you wrote.
+        if not sponsor and given and short and not own:
+            sponsor = given
     elif rules["venue_sponsor"] == "add" and short:
         listed = venues.sponsor_of(core) or venues.sponsor_of(original)
-        given = _SPONSOR.match(_PROC.sub("", original.strip()) + " ")
         if sponsor and listed and sponsor not in listed and listed not in sponsor:
             notes.append(f"The venue lists give {listed} as the sponsor of {core}, but your entry "
                          f"says {sponsor}. Left as written.")
-        elif not sponsor and not _SPONSOR.match(core):  # "USENIX Security" already has one
-            sponsor = listed or (given.group(1) if given else "")
+        elif not sponsor and not own:
+            sponsor = listed or given
             if not sponsor:
                 notes.append(f"No sponsor is listed for {core}, so none was added.")
 
     if rules["venue_year"] == "remove":
         year_text = ""
+    elif rules["venue_year"] == "keep" and short and not year_text and written_year:
+        year_text = written_year.group(1)  # as written: "'23" stays "'23", "2013" stays "2013"
     elif rules["venue_year"] == "add" and short:
         if not year_text:
             # Abbreviating can drop a year you wrote. It still counts, right or wrong.
@@ -489,8 +540,10 @@ def apply_rules(ref: bib.Reference, values: dict, rules: dict, keep_capitalized:
         else:
             missing = bib.plain(values[venue])
 
+    # A renamed venue is also restyled, so venue_sponsor: keep can put back a sponsor you wrote.
     if venue and values.get(venue) and ref_type == "conference" \
-            and any(rules[name] != "keep" for name in ("venue_year", "venue_sponsor", "venue_prefix")):
+            and (any(rules[name] != "keep" for name in ("venue_year", "venue_sponsor", "venue_prefix"))
+                 or values[venue] != original_venue):
         match = re.search(r"\b(1[5-9]\d\d|20\d\d)\b", bib.plain(values.get("year", "")))
         values[venue], venue_notes = style_venue(values[venue], int(match.group(1)) if match else None,
                                                  rules, venues, original_venue)

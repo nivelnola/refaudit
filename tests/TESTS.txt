@@ -1,4 +1,4 @@
-refaudit tests: 525 cases in 320 tests. Run with: pytest
+refaudit tests: 537 cases in 324 tests. Run with: pytest
 No test uses the network or the API. (N) = the test runs N cases.
 
 test_refaudit.py
@@ -45,7 +45,7 @@ Bib round trip
 Config
   - defaults change nothing
   - shipped config changes nothing
-  - shipped styles load (3)
+  - shipped styles load (4)
   - shipped config files hold only their own settings
   - type sections override all
   - typo gives clear message
@@ -383,6 +383,12 @@ Heuristics in the config
   - organization words are configurable
   - duplicate thresholds are configurable
   - invalid duplicate thresholds stop (3)
+
+Venue sponsors
+  - keep holds on to what you wrote (6)
+  - each venue list brings its fields sponsors
+  - your venue file can add sponsors
+  - a malformed venue file stops (3)
   - biber allows utf8
   - lint checks can be turned off
   - known fields include what the parser hides by

@@ -183,7 +183,7 @@ The ledger lives in the output folder, so if you use `--out`, use the same folde
 
 ## format
 
-`format` applies a **style**: a file of rules for title case, venue names, authors, and which fields to show. This folder ships `default` (changes nothing), and `ieee` and `acm` as starting points. Pick one with `style:` in `format.yaml`, or `--style` for one run.
+`format` applies a **style**: a file of rules for title case, venue names, authors, and which fields to show. This folder ships `default` (changes nothing), `ieee` and `acm` as starting points, and `wimnet`, the WiMNet group style. Pick one with `style:` in `format.yaml`, or `--style` for one run.
 
 ```yaml
 all:
@@ -291,8 +291,8 @@ No setting can make the tool rewrite a reference flagged as mismatched, ambiguou
 | `capitals_ignore` | units: `[dB, dBm, Hz, GHz, …]` | Capitalized words to leave alone: `protect_capitals` doesn't brace them, and lint doesn't warn about them |
 | `organization_words` | `[university, institute, research, …]` | Words that mark an author as an organization, as in "Columbia University". `authors: initials` leaves those names alone, and lint asks for braces around them, since BibTeX would read them as people |
 | `keep_capitalized` | `[Bayesian, Gaussian, Markov]` | Proper nouns, such as `Zadoff-Chu` or `GNU Radio`, that keep exactly this capitalization. `title_case` won't lowercase them, `protect_capitals: add` braces them, and lint's `unprotected_capitals` check warns when they're unbraced. ALLCAPS, ResNet-style words, lone capitals (N-Path) and `{braced}` words are already handled, but proper nouns can't be detected automatically |
-| `venue_lists` | `[computer_science, electrical_computer_engineering]` | Which files from `venues/` to use |
-| `abbreviations_file` | `null` | Path to your own venue file. Its entries supersede `venue_lists`, and `format.md` notes where that changed a reference. A relative path is relative to the config folder |
+| `venue_lists` | `[computer_science, electrical_computer_engineering]` | Which files from `venues/` to use. Each also lists the organizations that sponsor venues in its field, for the `venue_sponsor` rule |
+| `abbreviations_file` | `null` | Path to your own venue file. Its entries supersede `venue_lists`, and `format.md` notes where that changed a reference. It can add sponsors with a `sponsors: [Springer]` line. A relative path is relative to the config folder |
 
 ### lint.yaml
 

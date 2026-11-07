@@ -7,6 +7,7 @@ A style is a file of rules that `refaudit format` applies to your bib: title cas
 | `default` | Changes nothing. Copy it to start your own |
 | `ieee` | A starting point for IEEE venues (IEEEtran) |
 | `acm` | A starting point for ACM venues (ACM-Reference-Format) |
+| `wimnet` | The WiMNet group style, from the group's reference guidelines: braced acronyms, conference names as `Proc. ACM MobiCom'07`, pages and no month for journals, no DOIs |
 
 `ieee` and `acm` are starting points, not official styles. Rules vary between venues, even within IEEE, so check them against your venue's author guide.
 
@@ -76,13 +77,13 @@ Here a conference paper gets sentence case, initials, an abbreviated venue and h
 | `venue_names` | `keep` | Default. Leaves venue names alone |
 | | `abbreviated` | "NeurIPS" |
 | | `full` | "Advances in Neural Information Processing Systems" |
-| `venue_year` | `keep` | Default. Conferences only, like the two below. Leaves the year in the venue name alone |
+| `venue_year` | `keep` | Default. Conferences only, like the two below. Leaves the year in the venue name alone, including one you wrote that shortening the name would drop |
 | | `add` | `Proc. GRCon` becomes `Proc. GRCon'24`, using the entry's own year. If the name already has a different year, it's left alone and `lint` reports it |
 | | `remove` | `Proc. GRCon'24` becomes `Proc. GRCon` |
-| `venue_sponsor` | `keep` | Default. Leaves the sponsor in the venue name alone |
+| `venue_sponsor` | `keep` | Default. Leaves the sponsor alone, including one you wrote that shortening the name would drop |
 | | `add` | `INFOCOM` becomes `IEEE INFOCOM`, only if the sponsor is in the venue lists or your entry already named it. Otherwise it's left alone and noted |
 | | `remove` | `IEEE INFOCOM` becomes `INFOCOM` |
-| `venue_prefix` | `keep` | Default. Leaves any "Proc." alone |
+| `venue_prefix` | `keep` | Default. Leaves any "Proc." alone. If shortening the name would drop the one you wrote, it's kept as "Proc.", so "Proceedings of the" becomes "Proc." |
 | | `add` | `GRCon` becomes `Proc. GRCon` |
 | | `remove` | `Proc. GRCon` becomes `GRCon` |
 | `doi` | `keep` | Default. Leaves DOIs as they are, including hidden ones |
@@ -126,17 +127,17 @@ Two things follow from the order:
 
 ## How the venue settings combine
 
-`venue_names` picks the name. The three `venue_` settings then add or remove its parts, on conference entries only. Starting from `booktitle = {Proceedings of the 2013 IEEE Conference on Computer Communications}`, `year = {2013}`:
+`venue_names` picks the name. The three `venue_` settings then add, keep or remove its parts, on conference entries only. `keep` keeps what you wrote, even when the new name doesn't have it, so to get a bare abbreviation, use `remove`. Starting from `booktitle = {Proceedings of the 2013 IEEE Conference on Computer Communications}`, `year = {2013}`:
 
 | Style | Result |
 |---|---|
-| `venue_names: abbreviated` | `INFOCOM` |
-| the same, plus `venue_prefix: add` | `Proc. INFOCOM` |
-| plus `venue_sponsor: add` | `Proc. IEEE INFOCOM` |
-| plus `venue_year: add` | `Proc. IEEE INFOCOM'13` |
+| `venue_names: abbreviated` | `Proc. IEEE INFOCOM 2013`: what you wrote is kept |
+| the same, plus `venue_sponsor: remove` | `Proc. INFOCOM 2013` |
+| the same, with all three on `remove` | `INFOCOM` |
+| `venue_names: abbreviated`, plus `venue_year: add` | `Proc. IEEE INFOCOM'13` |
 | `venue_names: full` | `IEEE International Conference on Computer Communications` |
 
-The year comes from the entry's own `year`, and a year you wrote in the venue name is kept, even when abbreviating drops it. The sponsor comes from the venue lists, or from the name as you wrote it. `Proc. of the 30th Int. Conf. on Machine Learning` with all three on `add` gives `Proc. ICML'13`, with a note that no sponsor is listed for ICML.
+On a name with none of the parts, like `INFOCOM`, all three on `add` give `Proc. IEEE INFOCOM'13`. The year comes from the entry's own `year`, or the one you wrote in the venue name. The sponsor comes from the venue lists, or from the name as you wrote it. `Proc. of the 30th Int. Conf. on Machine Learning` with all three on `add` gives `Proc. ICML'13`, with a note that no sponsor is listed for ICML.
 
 With `add`, the `venue_` settings apply only to short names, because a long name usually already says who sponsors it.
 
@@ -192,6 +193,8 @@ It runs after `title_case`, and leaves alone a title that's braced as a whole, w
 Venue names are looked up in the files in `../venues/`, chosen with `venue_lists` in `format.yaml`. Each line is `"Full or alternate name": Abbreviation`, and alternate names get their own line:
 
 ```yaml
+sponsors: [IEEE, ACM, USENIX]
+
 "Advances in Neural Information Processing Systems": NeurIPS
 "Neural Information Processing Systems": NeurIPS
 ```
@@ -201,7 +204,7 @@ The first line for an abbreviation is the name `venue_names: full` writes.
 - **Adding a field:** drop a new file in `venues/` and add its name to `venue_lists`.
 - **Your own list:** use the same format and point `abbreviations_file` at it. Your entries supersede `venue_lists`, including every other built-in name for that venue. If you redefine ICML, "Proc. ICML" follows too. `format.md` lists each reference where your entry replaced a built-in one.
 - **Missing venues:** when `venue_names` isn't `keep`, venues not on any list are left unchanged and listed in `format.md`, with a line ready to paste into your file.
-- **Sponsors:** to teach the tool a sponsor, start a name with it, as in `"IEEE GNU Radio Conference": GRCon`. It recognizes IEEE, ACM and USENIX, plus joint forms like `IEEE/CVF`.
+- **Sponsors:** each venue file starts with a `sponsors:` line naming the organizations that sponsor venues in its field, such as `sponsors: [IEEE, ACM, USENIX]`. Joint forms of them, like `IEEE/ACM` or `ACM-SIAM`, are understood too. The sponsors of the files in `venue_lists` are combined with any in your `abbreviations_file`; if none declares any, IEEE, ACM and USENIX are used. A venue's own sponsor is the one that starts any of its listed names, so to teach the tool one, start a name with it; for example, if IEEE sponsors GNU Radio Conference, it will be written as `"IEEE GNU Radio Conference": GRCon`.
 
 Matching ignores case, years, ordinals, parentheses and wording like "Proceedings of the", and understands common short forms ("Proc. of the 40th Int. Conf. on Machine Learning" is ICML). It doesn't guess at similar names.
 

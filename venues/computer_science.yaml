@@ -2,6 +2,10 @@
 # Format: "Full or alternate name": Abbreviation
 # The first line for an abbreviation is its full name when venue_names is "full".
 
+# Organizations that sponsor venues in this field, as a venue's name can start with them:
+# "IEEE INFOCOM", "USENIX NSDI". Joint forms are understood too: "IEEE/ACM", "ACM-SIAM".
+sponsors: [IEEE, ACM, USENIX, IFIP, SIAM, CVF, RSJ, ISCA]
+
 # --- Machine learning and AI ---
 "Advances in Neural Information Processing Systems": NeurIPS
 "Neural Information Processing Systems": NeurIPS

@@ -51,7 +51,7 @@ def test_command_help_shows_its_own_options(capsys):
         cli.run(["format", "--help"])
     text = capsys.readouterr().out
     flat = " ".join(text.split())
-    assert "--style NAME" in text and "--apply" in text and "Built in: acm, default, ieee" in flat
+    assert "--style NAME" in text and "--apply" in text and "Built in: acm, default, ieee, wimnet" in flat
     assert "--dry-run" not in text
 
 
@@ -802,6 +802,53 @@ def test_duplicate_thresholds_are_configurable(tmp_path):
 def test_invalid_duplicate_thresholds_stop(data):
     with pytest.raises(config.ConfigError):
         config.build({"consistency": data}, style_data={})
+
+
+# --- Venue sponsors ----------------------------------------------------------------------
+
+@pytest.mark.parametrize("original,expected", [
+    ("Proc. ACM SIGCOMM'23", "Proc. ACM SIGCOMM'23"),              # was "SIGCOMM": keep dropped all three
+    ("Proceedings of the 2013 IEEE Conference on Computer Communications", "Proc. IEEE INFOCOM 2013"),
+    ("Proc. IEEE/ACM IPSN'20", "Proc. IEEE/ACM IPSN'20"),
+    ("Proc.~SRIF'13", "Proc.~SRIF'13"),
+    ("USENIX Security Symposium", "USENIX Security"),               # not "USENIX USENIX Security"
+    ("International Conference on Machine Learning", "ICML"),       # nothing written, nothing added
+])
+def test_keep_holds_on_to_what_you_wrote(tmp_path, original, expected):
+    text = f"@inproceedings{{a,\n  title = {{T}},\n  booktitle = {{{original}}},\n  year = {{2023}},\n}}\n"
+    out = run_tool(tmp_path, text, client=ExplodingClient(), command="format",
+                   cfg={"conference": {"venue_names": "abbreviated"}})
+    assert parsed(out, "a").get("booktitle") == expected
+
+
+def test_each_venue_list_brings_its_fields_sponsors():
+    from refaudit import format as fmt
+    assert "ACM" in fmt.load_venues(["computer_science"], None).sponsors
+    ece = fmt.load_venues(["electrical_computer_engineering"], None).sponsors
+    assert "IET" in ece and "ACM" not in ece
+    assert fmt.load_venues(["computer_science"], None).sponsor_re.match("ACM-SIAM SODA").group(1) == "ACM-SIAM"
+    assert fmt.load_venues([], None).sponsors == ["IEEE", "ACM", "USENIX"]  # nothing declared
+
+
+def test_your_venue_file_can_add_sponsors(tmp_path):
+    from refaudit import format as fmt
+    mine = tmp_path / "my_venues.yaml"
+    mine.write_text('sponsors: [Springer]\n"International Conference on Communications": ICC\n', encoding="utf-8")
+    venues = fmt.load_venues(["computer_science"], mine)
+    assert venues.sponsors[0] == "Springer" and "ACM" in venues.sponsors
+    rules = {"venue_prefix": "keep", "venue_sponsor": "remove", "venue_year": "keep"}
+    assert fmt.style_venue("Springer NETWORKING", 2020, rules, venues, "Springer NETWORKING")[0] == "NETWORKING"
+    plain = fmt.load_venues(["computer_science"], None)
+    assert fmt.style_venue("Springer NETWORKING", 2020, rules, plain, "Springer NETWORKING")[0] == "Springer NETWORKING"
+
+
+@pytest.mark.parametrize("text", ["sponsors: IEEE\n", "sponsors: [IEEE, 3]\n", '"Some Venue": [A, B]\n'])
+def test_a_malformed_venue_file_stops(tmp_path, text):
+    from refaudit import format as fmt
+    bad = tmp_path / "bad.yaml"
+    bad.write_text(text, encoding="utf-8")
+    with pytest.raises(config.ConfigError):
+        fmt.load_venues([], bad)
 
 
 def test_biber_allows_utf8():

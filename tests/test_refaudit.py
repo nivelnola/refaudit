@@ -409,7 +409,7 @@ def test_shipped_config_changes_nothing():
     assert all(value in ("keep", []) for t in config.TYPES for value in rules[t].values())
 
 
-@pytest.mark.parametrize("name", ["default", "ieee", "acm"])
+@pytest.mark.parametrize("name", ["default", "ieee", "acm", "wimnet"])
 def test_shipped_styles_load(name):
     path = config.find_style(name, None)
     assert path.parent == ROOT / "styles"
@@ -462,7 +462,7 @@ def test_yaml_off_is_accepted():
 
 
 def test_unknown_style_lists_the_ones_there_are():
-    with pytest.raises(config.ConfigError, match="No style named \"nope\". Available: acm, default, ieee"):
+    with pytest.raises(config.ConfigError, match="No style named \"nope\". Available: acm, default, ieee, wimnet"):
         config.find_style("nope", None)
 
 
@@ -550,7 +550,7 @@ def test_per_type_rules_in_output(tmp_path):
     out = run_tool(tmp_path, text, client=client, cfg={
         "conference": {"pages": "remove", "doi": "remove", "venue_names": "abbreviated"}})
     conf, journal = parsed(out, "c"), parsed(out, "smith2020")
-    assert conf.get("booktitle") == "ICML"
+    assert conf.get("booktitle") == "Proc. ICML"  # the "Proceedings of" you wrote is kept
     assert not conf.get("pages") and not conf.get("doi")
     assert journal.get("pages") == "10--20" and journal.get("doi") == "10.1000/real"
 
@@ -613,13 +613,16 @@ def test_venue_files_have_no_duplicate_lines(name):
     lines = (ROOT / "venues" / f"{name}.yaml").read_text(encoding="utf-8").splitlines()
     keys = [l.split('":')[0] for l in lines if l.startswith('"')]
     assert len(keys) == len(set(keys))
-    assert len(yaml.safe_load("\n".join(lines))) == len(keys)
+    data = yaml.safe_load("\n".join(lines))
+    assert isinstance(data.pop("sponsors"), list)  # every built-in list says who sponsors its field
+    assert len(data) == len(keys)
 
 
 def test_venue_files_do_not_conflict():
     seen = {}
     for name in ("computer_science", "electrical_computer_engineering"):
         data = yaml.safe_load((ROOT / "venues" / f"{name}.yaml").read_text(encoding="utf-8"))
+        data.pop("sponsors", None)
         for full, abbrev in data.items():
             key = fmt._venue_key(full)
             assert seen.setdefault(key, abbrev) == abbrev, f"{full} conflicts"
@@ -1082,7 +1085,7 @@ AFTER = r"""% My conference papers.
 @inproceedings{conf,
   author = {Bharadia, D. and McMilin, E. and Katti, S.},
   title = {{Full duplex radios for N-path Zadoff-Chu sounding in GNU Radio}},
-  booktitle = {ICML},
+  booktitle = {Proc. ICML},
   OPTpages = {375--386},
   OPTmonth = jun,
   year = {2013},
@@ -1108,7 +1111,7 @@ AFTER_DELETED = r"""% My conference papers.
 @inproceedings{conf,
   author = {Bharadia, D. and McMilin, E. and Katti, S.},
   title = {{Full duplex radios for N-path Zadoff-Chu sounding in GNU Radio}},
-  booktitle = {ICML},
+  booktitle = {Proc. ICML},
   year = {2013},
   url = {https://example.org/conf},
 }
@@ -1294,7 +1297,7 @@ def test_no_sponsor_is_invented():
 
 
 def test_a_sponsor_you_wrote_survives_abbreviating():
-    assert styled("SRIF", 2013, original="Proc. ACM SRIF'13", venue_sponsor="add")[0] == "ACM SRIF"
+    assert styled("SRIF", 2013, original="Proc. ACM SRIF'13", venue_sponsor="add")[0] == "Proc. ACM SRIF'13"
 
 
 def test_a_conflicting_sponsor_is_flagged_and_left_alone():
@@ -1308,12 +1311,12 @@ def test_a_conflicting_year_is_left_alone():
 
 
 def test_a_year_you_wrote_survives_abbreviating():
-    assert styled("CICC", 2017, original="Proc. IEEE CICC'17", venue_year="add") == ("CICC'17", [])
-    assert styled("ICC", 2023, original="2023 IEEE ICC", venue_year="add") == ("ICC'23", [])
+    assert styled("CICC", 2017, original="Proc. IEEE CICC'17", venue_year="add") == ("Proc. IEEE CICC'17", [])
+    assert styled("ICC", 2023, original="2023 IEEE ICC", venue_year="add") == ("IEEE ICC'23", [])
 
 
 def test_a_wrong_year_you_wrote_survives_abbreviating():
-    assert styled("NEWCAS", 2022, original="Proc. IEEE NEWCAS'20", venue_year="add") == ("NEWCAS'20", [])
+    assert styled("NEWCAS", 2022, original="Proc. IEEE NEWCAS'20", venue_year="add") == ("Proc. IEEE NEWCAS'20", [])
 
 
 def test_a_wrong_venue_year_is_reported_once(tmp_path):

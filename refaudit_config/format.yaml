@@ -31,9 +31,11 @@ organization_words: [
   society, systems, team, technologies, universidad, university, universität, université,
 ]
 
-# Built-in venue lists to use, from the venues/ folder.
+# Built-in venue lists to use, from the venues/ folder. Each also says which organizations
+# sponsor venues in its field (its sponsors: line), for the venue_sponsor rule.
 venue_lists: [computer_science, electrical_computer_engineering]
 
-# Optional: path to your own venue file, used before the built-in lists.
+# Optional: path to your own venue file, used before the built-in lists. It can add sponsors
+# too, with a line like: sponsors: [Springer]
 # A relative path is relative to this folder.
 abbreviations_file: null

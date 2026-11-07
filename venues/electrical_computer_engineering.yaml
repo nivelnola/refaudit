@@ -2,6 +2,10 @@
 # Format: "Full or alternate name": Abbreviation
 # The first line for an abbreviation is its full name when venue_names is "full".
 
+# Organizations that sponsor venues in this field, as a venue's name can start with them:
+# "IEEE ICC", "IET Communications". Joint forms are understood too: "IEEE/IET".
+sponsors: [IEEE, IET, IEICE, SPIE, EURASIP, ION, IFIP]
+
 # --- Communications and networks: conferences ---
 "IEEE International Conference on Communications": ICC
 "IEEE Global Communications Conference": GLOBECOM
