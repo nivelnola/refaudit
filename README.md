@@ -22,7 +22,7 @@ You need Python 3.10 or newer and git.
 
 1. Get the code and go into its folder:
    ```
-   git clone <repository URL> refaudit
+   git clone https://github.com/nivelnola/refaudit.git
    cd refaudit
    ```
 2. Install it, ideally in a virtual environment so it doesn't touch your other Python packages:
