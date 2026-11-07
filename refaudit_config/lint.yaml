@@ -1,0 +1,43 @@
+# lint: is each bib entry sound on its own?
+# Run `refaudit lint --help` for details. A typo stops the run with a clear message.
+
+# Which program builds your bibliography. bibtex flags non-ASCII characters; biber handles them.
+backend: bibtex             # bibtex | biber
+
+# --- Structure: problems BibTeX itself trips over ---
+
+# The same cite key used for two entries. BibTeX keeps only the first.
+repeated_keys: true         # true | false
+# Fields BibTeX requires for the entry type, such as publisher on a @book.
+required_fields: true       # true | false
+# Fields with nothing in them: number = {}
+empty_fields: true          # true | false
+# Field names that look misspelled, like jounral. BibTeX ignores fields it doesn't know.
+unknown_fields: true        # true | false
+# journal on an @inproceedings, or booktitle on an @article, so the venue may not print.
+wrong_type_fields: true     # true | false
+
+# --- Values: details that are wrong or malformed ---
+
+# A year that isn't one, or is more than a year ahead.
+years: true                 # true | false
+# A venue year that disagrees with the entry: Proc. IEEE NEWCAS'20 with year = {2022}.
+venue_year: true            # true | false
+# A single hyphen instead of --, or a range that runs backward or is abbreviated (1333--64).
+pages: true                 # true | false
+# Not a valid DOI, or with a prefix like https://doi.org/ that belongs outside the field.
+doi: true                   # true | false
+# "et al." written out, or several names separated by commas instead of "and".
+authors: true               # true | false
+
+# --- Typesetting: things that print wrongly ---
+
+# Unescaped & % # _ in a title, venue, publisher or series, which can break LaTeX.
+latex_specials: true        # true | false
+# Accented letters classic BibTeX can sort or capitalize wrongly. Ignored with backend: biber.
+non_ascii: true             # true | false
+# Words like LTE, MIMO, mmWave or 5G that a style may lowercase unless braced: {LTE}. Also
+# warns about the words in keep_capitalized in format.yaml, like Bayesian. A style with
+# protect_capitals: add braces all of these for you.
+# Matters for styles that recase titles (plain, ACM); mostly noise under IEEEtran.
+unprotected_capitals: true  # true | false

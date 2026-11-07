@@ -1,0 +1,18 @@
+# A starting point for ACM venues (ACM-Reference-Format). Check it against your venue's
+# author guide. ACM prints full venue names and wants a DOI wherever one exists.
+#
+# This style changes the bib file. When LaTeX builds the bibliography, the venue's
+# bibliography style (ACM-Reference-Format.bst) styles the entries again, and may go further
+# than this file: it sets punctuation, order and capitalization, and decides which fields
+# print. What's printed in the PDF can differ from the corrected bib. Check the compiled PDF.
+
+all:
+  doi: add
+  url: remove_if_doi
+  remove_fields: [abstract, keywords, file, timestamp, biburl, bibsource]
+
+conference:
+  venue_names: full
+
+journal:
+  venue_names: full

@@ -1,0 +1,23 @@
+# verify: is each reference real, with correct details and working links?
+# Run `refaudit verify --help` for how lookups work. A typo stops the run with a clear message.
+
+# Fix wrong details automatically only at this confidence or better.
+auto_correct: high          # high | medium | off
+
+# Free lookups. Crossref is used by DOI first, and searched by title for anything not found.
+crossref_lookup: true       # true | false
+arxiv_lookup: true          # true | false
+
+# Check links: every entry's (all), only entries no registry has (not_found), or none (off).
+url_check: all              # all | not_found | off
+
+# true sends every reference to Scholar Sidekick, even ones a DOI or arXiv ID settles for free.
+# Costs more, and adds PubMed and OpenAlex retraction data.
+sidekick_confirms_all: false
+
+# With a PDF, bib entries it doesn't cite aren't verified, to save API calls. true checks them too.
+check_unused: false         # true | false
+
+# Cost controls.
+recheck_after_days: 180     # how long a stored result stays valid; null = forever
+max_calls_per_run: null     # stop after this many API calls; null = no limit

@@ -1,0 +1,27 @@
+# The default style changes nothing. Copy it to refaudit_config/styles/ under a new name,
+# turn on what you want, and set `style:` in format.yaml (or use --style).
+
+# Applies to every reference, unless a type section below overrides it.
+all:
+  title_case: keep        # keep | sentence | title
+  protect_capitals: keep  # keep | add             add: Massive MIMO -> Massive {MIMO}, so a style can't lowercase it
+  venue_names: keep       # keep | abbreviated | full
+  venue_year: keep        # keep | add | remove    Conferences only: GRCon -> GRCon'24
+  venue_sponsor: keep     # keep | add | remove    Conferences only: INFOCOM -> IEEE INFOCOM
+  venue_prefix: keep      # keep | add | remove    Conferences only: GRCon -> Proc. GRCon
+  doi: keep               # keep | remove | add    add also shows a hidden OPTdoi again
+  pages: keep             # keep | remove | add    add also shows a hidden OPTpages again
+  url: keep               # keep | remove | remove_if_doi | show
+  authors: keep           # keep | initials
+  month: keep             # keep | remove | show
+  remove_fields: []       # hidden from BibTeX, e.g. [abstract, keywords, file]
+  show_fields: []         # shown again if hidden, e.g. [note]
+
+# Per-type overrides: list only what differs from "all".
+# Types: conference, journal, preprint, book, techreport, other
+#
+# conference:
+#   venue_names: abbreviated
+#   venue_prefix: add
+#   venue_sponsor: add
+#   venue_year: add       # gives names like "Proc. IEEE INFOCOM'18"

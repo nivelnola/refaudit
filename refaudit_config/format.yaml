@@ -1,0 +1,39 @@
+# format: apply a citation style. The rules themselves live in a style file.
+
+# Which style to use: a name from styles/ (here or in the tool folder), or a path to a .yaml file.
+# `refaudit format --style NAME` overrides this for one run.
+style: default
+
+# When verify runs in the same command, leave entries it marks CHECK exactly as written.
+skip_unverified: true       # true | false
+
+# Fields a style leaves out are renamed with this prefix (doi -> OPTdoi), so BibTeX and biber
+# ignore them but nothing is lost. null deletes them instead.
+hidden_prefix: OPT
+
+# Proper nouns to keep capitalized: title_case won't lowercase them, protect_capitals: add
+# braces them, and lint warns when they're unbraced. ALLCAPS, ResNet-style words and
+# {braced} text are already handled without being listed.
+keep_capitalized: [WiMNet, FlexICoN, COSMOS, ORBIT, RFIC]
+
+# Capitalized words to leave alone: protect_capitals doesn't brace them, and lint doesn't warn
+# about them. Units are here because their capitals are deliberate and rarely recased.
+capitals_ignore: [dB, dBm, dBi, Hz, kHz, MHz, GHz, THz, mW, kW, MW, GW, mA, mV, kV, nm, mm]
+
+# Words that mark an author as an organization, as in "Columbia University" or "Ettus Research".
+# authors: initials leaves those names alone, and lint asks for braces around them so BibTeX
+# doesn't read them as people. Lowercase; a name needs two or more words to count.
+organization_words: [
+  administration, agency, alliance, association, authority, center, centre, college, commission,
+  committee, company, consortium, corp, corporation, council, department, forum, foundation, gmbh,
+  group, inc, initiative, institut, institute, instruments, lab, laboratories, laboratory, labs, llc,
+  ltd, ministry, office, organisation, organization, partnership, project, radio, research, school,
+  society, systems, team, technologies, universidad, university, universität, université,
+]
+
+# Built-in venue lists to use, from the venues/ folder.
+venue_lists: [computer_science, electrical_computer_engineering]
+
+# Optional: path to your own venue file, used before the built-in lists.
+# A relative path is relative to this folder.
+abbreviations_file: null

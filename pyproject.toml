@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "refaudit"
+version = "0.2.0"
+description = "Audit a paper's references: verify them, apply a citation style, and lint the bib."
+requires-python = ">=3.10"
+dependencies = ["requests", "pyyaml", "pylatexenc", "pymupdf"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.scripts]
+refaudit = "refaudit.cli:main"
+
+[tool.setuptools]
+packages = ["refaudit", "refaudit.sweeps"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

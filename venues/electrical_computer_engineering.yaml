@@ -1,0 +1,126 @@
+# Electrical and computer engineering.
+# Format: "Full or alternate name": Abbreviation
+# The first line for an abbreviation is its full name when venue_names is "full".
+
+# --- Communications and networks: conferences ---
+"IEEE International Conference on Communications": ICC
+"IEEE Global Communications Conference": GLOBECOM
+"IEEE Global Telecommunications Conference": GLOBECOM
+"IEEE Wireless Communications and Networking Conference": WCNC
+"IEEE Vehicular Technology Conference": VTC
+"IEEE International Symposium on Personal, Indoor and Mobile Radio Communications": PIMRC
+"IEEE International Symposium on Dynamic Spectrum Access Networks": DySPAN
+"IEEE International Workshop on Signal Processing Advances in Wireless Communications": SPAWC
+"IEEE Military Communications Conference": MILCOM
+"European Conference on Networks and Communications": EuCNC
+"International Conference on Indoor Positioning and Indoor Navigation": IPIN
+"IEEE/ION Position, Location and Navigation Symposium": PLANS
+"IEEE International Symposium on Information Theory": ISIT
+
+# --- Communications and networks: journals ---
+"IEEE Transactions on Communications": IEEE Trans. Commun.
+"IEEE Transactions on Wireless Communications": IEEE Trans. Wireless Commun.
+"IEEE Journal on Selected Areas in Communications": IEEE J. Sel. Areas Commun.
+"IEEE Communications Letters": IEEE Commun. Lett.
+"IEEE Wireless Communications Letters": IEEE Wireless Commun. Lett.
+"IEEE Communications Magazine": IEEE Commun. Mag.
+"IEEE Wireless Communications": IEEE Wireless Commun.
+"IEEE Communications Surveys & Tutorials": IEEE Commun. Surveys Tuts.
+"IEEE Communications Surveys and Tutorials": IEEE Commun. Surveys Tuts.
+"IEEE Transactions on Vehicular Technology": IEEE Trans. Veh. Technol.
+"IEEE Transactions on Network Science and Engineering": IEEE Trans. Netw. Sci. Eng.
+"IEEE Transactions on Network and Service Management": IEEE Trans. Netw. Service Manag.
+"IEEE Transactions on Cognitive Communications and Networking": IEEE Trans. Cogn. Commun. Netw.
+"IEEE Transactions on Machine Learning in Communications and Networking": IEEE Trans. Mach. Learn. Commun. Netw.
+"IEEE Open Journal of the Communications Society": IEEE Open J. Commun. Soc.
+"IEEE Network": IEEE Netw.
+"IEEE Internet of Things Journal": IEEE Internet Things J.
+"IEEE Access": IEEE Access
+"IEEE Spectrum": IEEE Spectr.
+"GNU Radio Conference": GRCon
+"IEEE Transactions on Information Theory": IEEE Trans. Inf. Theory
+"IEEE Journal on Selected Areas in Information Theory": IEEE J. Sel. Areas Inf. Theory
+"Proceedings of the IEEE": Proc. IEEE
+
+# --- Signal processing ---
+"IEEE International Conference on Acoustics, Speech and Signal Processing": ICASSP
+"IEEE International Conference on Acoustics, Speech, and Signal Processing": ICASSP
+"International Conference on Acoustics, Speech and Signal Processing": ICASSP
+"European Signal Processing Conference": EUSIPCO
+"Asilomar Conference on Signals, Systems, and Computers": Asilomar
+"IEEE International Conference on Image Processing": ICIP
+"IEEE Transactions on Signal Processing": IEEE Trans. Signal Process.
+"IEEE Signal Processing Letters": IEEE Signal Process. Lett.
+"IEEE Signal Processing Magazine": IEEE Signal Process. Mag.
+"IEEE Journal of Selected Topics in Signal Processing": IEEE J. Sel. Topics Signal Process.
+"IEEE Transactions on Image Processing": IEEE Trans. Image Process.
+"IEEE/ACM Transactions on Audio, Speech, and Language Processing": IEEE/ACM Trans. Audio, Speech, Lang. Process.
+"IEEE Transactions on Multimedia": IEEE Trans. Multimedia
+"Signal Processing": Signal Process.
+
+# --- Circuits, devices and solid state ---
+"IEEE International Solid-State Circuits Conference": ISSCC
+"IEEE Radio Frequency Integrated Circuits Symposium": RFIC
+"IEEE Custom Integrated Circuits Conference": CICC
+"European Solid-State Circuits Conference": ESSCIRC
+"IEEE International Symposium on Circuits and Systems": ISCAS
+"IEEE International New Circuits and Systems Conference": NEWCAS
+"IEEE International Electron Devices Meeting": IEDM
+"Symposium on VLSI Technology and Circuits": VLSI Symposium
+"IEEE Journal of Solid-State Circuits": IEEE J. Solid-State Circuits
+"IEEE Transactions on Circuits and Systems I: Regular Papers": IEEE Trans. Circuits Syst. I, Reg. Papers
+"IEEE Transactions on Circuits and Systems II: Express Briefs": IEEE Trans. Circuits Syst. II, Exp. Briefs
+"IEEE Transactions on Circuits and Systems for Video Technology": IEEE Trans. Circuits Syst. Video Technol.
+"IEEE Transactions on Very Large Scale Integration (VLSI) Systems": IEEE Trans. Very Large Scale Integr. (VLSI) Syst.
+"IEEE Transactions on Electron Devices": IEEE Trans. Electron Devices
+"IEEE Electron Device Letters": IEEE Electron Device Lett.
+
+# --- Computer engineering and design automation ---
+"ACM/IEEE Design Automation Conference": DAC
+"Design Automation Conference": DAC
+"IEEE/ACM International Conference on Computer-Aided Design": ICCAD
+"Design, Automation and Test in Europe Conference": DATE
+"Design, Automation & Test in Europe Conference": DATE
+"International Conference on Hardware/Software Codesign and System Synthesis": CODES+ISSS
+"IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems": IEEE Trans. Comput.-Aided Design Integr. Circuits Syst.
+"ACM Transactions on Design Automation of Electronic Systems": ACM Trans. Des. Autom. Electron. Syst.
+"ACM Transactions on Embedded Computing Systems": ACM Trans. Embed. Comput. Syst.
+"IEEE Embedded Systems Letters": IEEE Embed. Syst. Lett.
+"IEEE Micro": IEEE Micro
+
+# --- Antennas, microwaves and radar ---
+"IEEE International Symposium on Antennas and Propagation": APS
+"European Conference on Antennas and Propagation": EuCAP
+"IEEE MTT-S International Microwave Symposium": IMS
+"IEEE Radar Conference": RadarConf
+"IEEE Radio and Wireless Symposium": RWS
+"Asia-Pacific Microwave Conference": APMC
+"IEEE Wireless and Microwave Technology Conference": WAMICON
+"IEEE Transactions on Antennas and Propagation": IEEE Trans. Antennas Propag.
+"IEEE Antennas and Wireless Propagation Letters": IEEE Antennas Wireless Propag. Lett.
+"IEEE Transactions on Microwave Theory and Techniques": IEEE Trans. Microw. Theory Techn.
+"IEEE Microwave and Wireless Technology Letters": IEEE Microw. Wireless Technol. Lett.
+"IEEE Transactions on Aerospace and Electronic Systems": IEEE Trans. Aerosp. Electron. Syst.
+"IEEE Transactions on Geoscience and Remote Sensing": IEEE Trans. Geosci. Remote Sens.
+
+# --- Sensors, instrumentation and photonics ---
+"IEEE Sensors Journal": IEEE Sensors J.
+"IEEE Sensors Letters": IEEE Sensors Lett.
+"IEEE Transactions on Instrumentation and Measurement": IEEE Trans. Instrum. Meas.
+"IEEE Journal of Lightwave Technology": J. Lightw. Technol.
+"Journal of Lightwave Technology": J. Lightw. Technol.
+"IEEE Photonics Technology Letters": IEEE Photon. Technol. Lett.
+"Sensors": Sensors
+
+# --- Control and power ---
+"IEEE Conference on Decision and Control": CDC
+"American Control Conference": ACC
+"IEEE Transactions on Automatic Control": IEEE Trans. Autom. Control
+"IEEE Transactions on Control Systems Technology": IEEE Trans. Control Syst. Technol.
+"IEEE Control Systems Letters": IEEE Control Syst. Lett.
+"Automatica": Automatica
+"IEEE Transactions on Power Systems": IEEE Trans. Power Syst.
+"IEEE Transactions on Power Electronics": IEEE Trans. Power Electron.
+"IEEE Transactions on Smart Grid": IEEE Trans. Smart Grid
+"IEEE Transactions on Industrial Electronics": IEEE Trans. Ind. Electron.
+"IEEE Transactions on Industrial Informatics": IEEE Trans. Ind. Informat.

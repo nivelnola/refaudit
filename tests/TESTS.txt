@@ -1,0 +1,388 @@
+refaudit tests: 525 cases in 320 tests. Run with: pytest
+No test uses the network or the API. (N) = the test runs N cases.
+
+test_refaudit.py
+================
+
+Safety
+  - mismatch is never rewritten
+  - unresolved is never rewritten (2)
+  - retracted is check even when matched
+  - api failure is never ok
+  - failed results are not stored
+  - not found says not necessarily fake
+  - title search match corrects nothing
+  - key never appears in output
+  - system environment is ignored
+  - original file is untouched
+
+Corrections
+  - wrong details are fixed
+  - medium confidence flags instead of fixing
+  - auto correct medium fixes
+  - auto correct off never fixes
+  - and others is not an author error
+  - accents and latex are not author errors
+  - compound names split differently are the same people (4)
+  - letters without separable accents compare equal (5)
+  - truncated author list is corrected
+  - different person is corrected
+  - article number is not an issue (2)
+  - weak candidates are hidden
+  - book edition difference is not called fabricated
+  - title mismatch is called possibly fabricated
+  - conference venue year not taken from preprint record
+
+Bib round trip
+  - no changes leaves file byte identical
+  - edits touch only the changed field
+  - remove and add fields
+  - add field when last field has no comma or is removed
+  - macros and concatenation
+  - commented out entry is ignored
+  - unbalanced entry gives clear error
+
+Config
+  - defaults change nothing
+  - shipped config changes nothing
+  - shipped styles load (3)
+  - shipped config files hold only their own settings
+  - type sections override all
+  - typo gives clear message
+  - invalid config stops (10)
+  - a setting in the wrong file says where it goes (3)
+  - yaml off is accepted
+  - unknown style lists the ones there are
+  - a style in the config folder beats the tools
+  - style flag overrides format yaml
+  - a stray yaml in the config folder stops
+  - entry types (13)
+  - readme documents every option
+
+Formatting
+  - sentence case (5)
+  - title case (3)
+  - case changes applied and listed
+  - per type rules in output
+  - add uses verified record
+  - other rules
+  - initials written together are all kept
+  - initials handle hyphens and organizations
+
+Venues
+  - venue matching (8)
+  - full name for any alias
+  - unknown venue does not match a similar one
+  - venue files have no duplicate lines (2)
+  - venue files do not conflict
+  - venue lists picks files
+  - custom file wins
+  - unknown list gives clear error
+  - missing venue is flagged with paste line
+
+Ledger
+  - second run makes no calls
+  - cosmetic edits make no calls (5)
+  - corrected bib makes no calls and stays stable
+  - new format settings reuse stored results
+  - editing one entry rechecks only that entry
+  - check results are reused
+  - results expire
+  - recheck forces calls
+  - interrupted run keeps finished batches
+  - damaged ledger starts over
+
+Flags and batching
+  - batches of 25
+  - format only makes no calls
+  - dry run makes no calls and writes nothing
+  - call limit marks the rest not checked
+  - real client stops at limit and retries rate limits
+  - rejected key stops with a clear message
+  - claim sends details only
+  - trim handles live record shape
+
+From a real audit of a camera-ready paper
+  - repeating headers are removed wherever they sit
+  - url is not part of the title
+  - short title connects to its pdf entry
+  - short title does not take a longer titles entry
+  - stray text inside a title still connects
+  - weak guesses are not stored and old ledgers are cleaned
+  - same title (5)
+  - direct crossref search finds what the api missed
+  - crossref needs title author and year (3)
+  - crossref down retries next run without paying
+  - crossref lookup can be turned off
+  - crossref client parses records
+  - title match details come from a free crossref lookup
+  - details lookup is stored and not repeated
+  - details lookup ignores a different title
+  - doi unknown to crossref leaves the result alone
+  - details lookup retries when crossref is down
+  - details lookup skipped when turned off
+  - title match conflict is check and changes nothing
+  - title match missing value is a note
+  - title match of a preprint or other title is not compared
+  - dois become links (9)
+  - code blocks are not linked
+  - every doi in the report is a link
+
+Formatting, end to end: the exact text written to the corrected bib
+  - formatting writes exactly the expected bib
+  - hidden prefix null deletes instead
+  - original bib is unchanged by formatting
+  - formatting twice changes nothing more
+  - each setting changes the bib text (9)
+  - sentence case on braced titles (5)
+  - keep capitalized handles phrases and hyphens
+  - title case keeps hyphens in braced titles
+  - proceedings shorthand is recognized (3)
+  - venues added after a real audit (6)
+  - a publisher name alone does not match a journal
+
+abbreviations_file supersedes venue_lists
+  - custom entry beats every built in name (4)
+  - custom entry supersedes in full mode too
+  - other venues still use the built in list
+  - report notes when custom supersedes
+  - report stays quiet when nothing was superseded
+
+Venue year, sponsor and prefix
+  - venue parts (17)
+  - adding what is already there changes nothing
+  - no sponsor is invented
+  - a sponsor you wrote survives abbreviating
+  - a conflicting sponsor is flagged and left alone
+  - a conflicting year is left alone
+  - a year you wrote survives abbreviating
+  - a wrong year you wrote survives abbreviating
+  - a wrong venue year is reported once
+  - no year in the entry is noted
+  - long names are not decorated
+  - sponsor can be taught with a venue file
+  - venue style writes exactly the expected bib
+  - venue settings ignore journals
+
+Link check
+  - working link is link ok and not called verified
+  - broken link is check
+  - blocked link stays unconfirmed and retries free
+  - link result is stored and not repeated
+  - link ok entries still get formatted
+  - entries found elsewhere skip the link check with not found
+  - verified entries get their links checked
+  - a moved link is reported with where it went
+  - link checks of verified entries are stored
+  - an unclear link answer is asked again
+  - found by crossref skips the link check
+  - url check can be turned off
+  - no url means no link check
+  - url of (4)
+  - url from printed pdf text
+  - link checker states (7)
+  - link checker treats network trouble as no answer
+
+Sanity checks
+  - a good entry has no problems
+  - each problem is caught (17)
+  - normal entries are not flagged (10)
+  - next years paper is fine but the venue mismatch shows
+  - required fields by type (6)
+  - alternate fields count
+  - repeated cite key is a sanity problem
+  - possible duplicates (6)
+  - entries verified as the same work are possible duplicates
+  - different works are not possible duplicates (3)
+  - three way duplicates with one reason say it once
+  - three way duplicates with different reasons name each pair
+  - report has possible duplicates and contents
+  - contents links match heading anchors (3)
+  - report lists sanity problems on every kind of run
+  - sanity checks change nothing and stay quiet when clean
+  - a doi in a sanity problem is a link
+
+Used and unused references
+  - unused entries spend no api calls
+  - report focuses on used references
+  - unused sanity problems stay in their section
+  - used sanity problems stay up top
+  - unused entries can be checked on request
+  - a stored result for an unused entry is still shown
+  - unused entries are still formatted and kept
+  - changes to unused entries are listed
+  - dry run counts only used references
+  - format alone marks unused entries
+  - bib alone has no unused section
+  - nothing unused means no section
+  - invalid check unused stops
+
+Progress
+  - bar (5)
+  - terminal gets a live bar
+  - logs get plain lines with no bar
+  - run shows each step
+  - failed batches are counted in the status
+  - rate limit wait is announced
+
+arXiv
+  - found on arxiv is ok and changes nothing
+  - arxiv needs title and first author
+  - not on arxiv says so
+  - wrong arxiv id is flagged
+  - arxiv published version is noted
+  - withdrawn arxiv paper is check
+  - arxiv result is stored and not repeated
+  - arxiv down keeps not found and retries without paying
+  - arxiv lookup can be turned off
+  - arxiv skipped when found elsewhere and on format only
+  - invalid arxiv setting stops
+  - arxiv client parses and paces
+  - arxiv client returns none when unreachable
+
+PDF
+  - margin numbers and headers removed and words rejoined
+  - acm parsing
+  - ieee parsing
+  - unparseable reference is flagged for the raw path
+  - numbered splitting ignores out of sequence numbers
+  - two column author year list with hanging indent
+  - pieces of one printed line are read left to right
+  - three columns of references under two columns of text
+  - entries separated by space with no indent
+  - alphabetic labels
+  - hyphen printed elsewhere is kept at a line break
+
+Found by the stress test on 20 WiMNet papers (tests/stress_test/STRESS_REPORT.md)
+  - large heading overlapping the first entry is still found
+  - label printed out of order does not swallow the rest
+  - repeated stray label inside an entry is not a new entry
+  - last entry stops before author biographies
+  - last entry stops at a new page once complete
+  - biographies heading ends the reference list
+  - unquoted book and acm titles are found
+  - given name first list is not read family name first
+  - trailing links and ids leave the title
+  - online availability notes are not titles
+  - ditto mark repeats the previous authors
+  - copernicus style author list ending in a colon
+  - ligature characters become letters
+  - unmapped ligatures are put back by width then by context
+  - author year parsing (5)
+  - cross check
+  - scanned pdf gives clear error
+  - pdf only run changes nothing and reports
+
+Sample report
+  - sample report is up to date
+
+test_sweeps.py
+==============
+
+Commands and help
+  - main help lists every command (4)
+  - each command has its own help (6)
+  - help topic gives that commands help
+  - command help shows its own options
+  - full help shows every commands options
+  - commands that never change a bib have no output options (3)
+  - version
+  - mistakes give a one line error (3)
+  - a command without its inputs says what it needs
+  - full skips what the inputs dont allow
+  - a bare file means full
+  - offline commands make no calls (3)
+  - only one report for one command
+
+Verify: free lookups by identifier first
+  - a doi is settled by crossref for free
+  - crossref records corrections with their source
+  - a year off by one from crossref is shown not corrected
+  - a doi pointing elsewhere gets a second opinion
+  - a doi mismatch stands if the paid check finds nothing
+  - crossref retraction notices are read
+  - a title match picks up a retraction from the full record
+  - crossref parses retraction notices
+  - entries without an identifier go straight to the paid check
+  - sidekick confirms all skips the free stage
+  - arxiv ids are checked together for free
+  - an arxiv id for another paper is flagged
+  - an unknown arxiv id isnt asked about twice
+  - arxiv by ids asks in chunks
+  - dry run with no identifiers gives one number
+  - a doi link isnt checked or called moved
+  - crossref is paced to its published limits
+  - a year printed after a link isnt part of it
+  - free lookups give the same results in parallel
+  - link checker reports a move to another site
+
+Format: hidden fields, the gate, the ledger
+  - a hidden field is shown again by add
+  - keep leaves a hidden field hidden
+  - show fields and url show
+  - a real field that starts like the prefix isnt hidden
+  - hidden identifiers still identify the work
+  - hiding a field costs no new check
+  - format alone uses a stored record to add a doi
+  - check entries are left as written by default
+  - the gate can be opened
+  - by default changes are only proposed
+  - apply changes the bib and keeps a backup
+  - apply and write together
+  - apply with nothing to change touches nothing
+  - apply keeps the bibs encoding and line endings
+  - apply refuses what the encoding cant hold
+
+changes.md and the diff
+  - changes credit each sweep
+  - the diff applies to the original
+  - nothing to change says so and leaves no diff
+
+Consistency
+  - consistency finds each kind
+  - different years of one conference are not inconsistent
+  - crossref title search includes the first author and year
+  - john and jane are not merged
+  - consistency only runs the sections asked for
+  - fields the style hides arent called missing
+  - consistency works on a pdf alone
+
+Lint additions
+  - lint compatibility checks (6)
+  - lint compatibility stays quiet (6)
+  - an unreadable entry is reported and the rest still checked
+  - a missing closing brace still stops the run
+  - protect capitals (6)
+  - protect capitals in a style runs after title case
+  - lint warns about keep capitalized words and format fixes them
+
+The PDF's references, saved as a .bib
+  - the saved reading matches the pdf
+  - the pdf is read once
+  - your edits to the saved reading are used and kept
+  - a changed pdf is read again but your edits are not overwritten
+  - a newer reader redoes an unedited reading
+  - a dry run doesnt save the reading
+
+After --apply, lint and consistency check the changed bib
+  - lint after apply checks the changed bib
+  - without apply lint checks the bib as it is
+
+From the wacky-style experiment on the 2024 MobiCom demo
+  - initials are stable (6)
+  - an organization keeps its name under initials
+  - lint asks for braces around an organization (7)
+  - a non breaking space in a venue is a space (4)
+  - added braces show in the reports
+  - a style given as a path is named once
+  - the wacky style is stable on a second run
+
+Heuristics in the config
+  - units are left alone by default and the list is yours
+  - protect capitals skips capitals ignore
+  - organization words are configurable
+  - duplicate thresholds are configurable
+  - invalid duplicate thresholds stop (3)
+  - biber allows utf8
+  - lint checks can be turned off
+  - known fields include what the parser hides by

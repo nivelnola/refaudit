@@ -1,0 +1,22 @@
+# A starting point for IEEE venues (IEEEtran). Check it against your venue's author guide:
+# rules vary between IEEE journals and conferences.
+#
+# This style changes the bib file. When LaTeX builds the bibliography, the venue's
+# bibliography style (IEEEtran.bst) styles the entries again, and may go further than this
+# file: it abbreviates first names, sets punctuation and order, and can change capitalization.
+# What's printed in the PDF can differ from the corrected bib. Check the compiled PDF.
+# Initials here make the bib match what IEEEtran prints.
+
+all:
+  authors: initials
+  url: remove_if_doi
+  month: remove
+  remove_fields: [abstract, keywords, file, timestamp, biburl, bibsource]
+
+conference:
+  venue_names: abbreviated
+  venue_prefix: add       # "Proc. IEEE INFOCOM"
+  venue_sponsor: add
+
+journal:
+  venue_names: abbreviated

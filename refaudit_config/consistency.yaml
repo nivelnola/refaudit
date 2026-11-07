@@ -1,0 +1,32 @@
+# consistency: do the entries hold together as a set?
+# Run `refaudit consistency --help` for details. A typo stops the run with a clear message.
+# `--only` picks sections for one run, whatever is set here.
+
+# --- Errors: listed first ---
+
+# The same work cited under two keys: same DOI or arXiv ID, the same or nearly the same title,
+# or a conference paper and its journal version. Includes PDF references missing from the bib.
+duplicates: true            # true | false
+# How alike two titles must be to be "nearly the same" (0 to 1; 0.88 catches testbed/testbeds).
+duplicate_similarity: 0.88
+# A likely conference and journal version: same first author, at least this share of title
+# words in common, and at most duplicate_year_gap years apart.
+duplicate_word_overlap: 0.6
+duplicate_year_gap: 2
+
+# --- Naming: one thing written more than one way ---
+
+# The same venue written differently: "Proc. IEEE INFOCOM'18" and "INFOCOM".
+venues: true                # true | false
+# The same person written differently: "J. Smith" and "John Smith".
+# Never merges different full first names, so John and Jane Smith stay apart.
+authors: true               # true | false
+
+# --- Completeness and style: across entries of one type ---
+
+# A field most entries of a type have, missing from a few. Fields your style hides are skipped.
+fields: true                # true | false
+# How many entries of a type must have a field before the rest are listed as missing it.
+min_share: 0.75             # a number above 0, up to 1
+# Title case or venue naming that varies within a type.
+conventions: true           # true | false

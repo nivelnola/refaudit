@@ -1,0 +1,183 @@
+# Computer science, including AI.
+# Format: "Full or alternate name": Abbreviation
+# The first line for an abbreviation is its full name when venue_names is "full".
+
+# --- Machine learning and AI ---
+"Advances in Neural Information Processing Systems": NeurIPS
+"Neural Information Processing Systems": NeurIPS
+"Conference on Neural Information Processing Systems": NeurIPS
+"Annual Conference on Neural Information Processing Systems": NeurIPS
+"NIPS": NeurIPS
+"International Conference on Machine Learning": ICML
+"International Conference on Learning Representations": ICLR
+"AAAI Conference on Artificial Intelligence": AAAI
+"National Conference on Artificial Intelligence": AAAI
+"International Joint Conference on Artificial Intelligence": IJCAI
+"Conference on Uncertainty in Artificial Intelligence": UAI
+"Uncertainty in Artificial Intelligence": UAI
+"International Conference on Artificial Intelligence and Statistics": AISTATS
+"Artificial Intelligence and Statistics": AISTATS
+"Conference on Learning Theory": COLT
+"Conference on Robot Learning": CoRL
+"International Conference on Autonomous Agents and Multiagent Systems": AAMAS
+"European Conference on Machine Learning and Principles and Practice of Knowledge Discovery in Databases": ECML PKDD
+"Journal of Machine Learning Research": J. Mach. Learn. Res.
+"Machine Learning": Mach. Learn.
+"Artificial Intelligence": Artif. Intell.
+"Journal of Artificial Intelligence Research": J. Artif. Intell. Res.
+"Transactions on Machine Learning Research": Trans. Mach. Learn. Res.
+"Nature Machine Intelligence": Nat. Mach. Intell.
+"Neural Computation": Neural Comput.
+"Neural Networks": Neural Netw.
+"Neurocomputing": Neurocomputing
+"IEEE Transactions on Pattern Analysis and Machine Intelligence": IEEE Trans. Pattern Anal. Mach. Intell.
+"IEEE Transactions on Neural Networks and Learning Systems": IEEE Trans. Neural Netw. Learn. Syst.
+"IEEE Transactions on Artificial Intelligence": IEEE Trans. Artif. Intell.
+"ACM Transactions on Intelligent Systems and Technology": ACM Trans. Intell. Syst. Technol.
+
+# --- Computer vision and graphics ---
+"IEEE/CVF Conference on Computer Vision and Pattern Recognition": CVPR
+"IEEE Conference on Computer Vision and Pattern Recognition": CVPR
+"Conference on Computer Vision and Pattern Recognition": CVPR
+"Computer Vision and Pattern Recognition": CVPR
+"IEEE/CVF International Conference on Computer Vision": ICCV
+"IEEE International Conference on Computer Vision": ICCV
+"International Conference on Computer Vision": ICCV
+"European Conference on Computer Vision": ECCV
+"IEEE/CVF Winter Conference on Applications of Computer Vision": WACV
+"IEEE Winter Conference on Applications of Computer Vision": WACV
+"British Machine Vision Conference": BMVC
+"International Conference on 3D Vision": 3DV
+"ACM SIGGRAPH Conference": SIGGRAPH
+"International Journal of Computer Vision": Int. J. Comput. Vis.
+"ACM Transactions on Graphics": ACM Trans. Graph.
+"IEEE Transactions on Visualization and Computer Graphics": IEEE Trans. Vis. Comput. Graph.
+"Computer Vision and Image Understanding": Comput. Vis. Image Underst.
+
+# --- Natural language processing and speech ---
+"Annual Meeting of the Association for Computational Linguistics": ACL
+"Meeting of the Association for Computational Linguistics": ACL
+"Conference on Empirical Methods in Natural Language Processing": EMNLP
+"Empirical Methods in Natural Language Processing": EMNLP
+"Conference of the North American Chapter of the Association for Computational Linguistics": NAACL
+"Conference of the European Chapter of the Association for Computational Linguistics": EACL
+"International Conference on Computational Linguistics": COLING
+"Conference on Language Modeling": COLM
+"Interspeech": INTERSPEECH
+"Transactions of the Association for Computational Linguistics": Trans. Assoc. Comput. Linguist.
+"Computational Linguistics": Comput. Linguist.
+
+# --- Robotics ---
+"IEEE International Conference on Robotics and Automation": ICRA
+"International Conference on Robotics and Automation": ICRA
+"IEEE/RSJ International Conference on Intelligent Robots and Systems": IROS
+"International Conference on Intelligent Robots and Systems": IROS
+"Robotics: Science and Systems": RSS
+"The International Journal of Robotics Research": Int. J. Robot. Res.
+"International Journal of Robotics Research": Int. J. Robot. Res.
+"IEEE Transactions on Robotics": IEEE Trans. Robot.
+"IEEE Robotics and Automation Letters": IEEE Robot. Autom. Lett.
+
+# --- Data mining, information retrieval and databases ---
+"ACM SIGKDD Conference on Knowledge Discovery and Data Mining": KDD
+"ACM SIGKDD International Conference on Knowledge Discovery and Data Mining": KDD
+"Knowledge Discovery and Data Mining": KDD
+"The ACM Web Conference": WWW
+"The Web Conference": WWW
+"International World Wide Web Conference": WWW
+"International Conference on World Wide Web": WWW
+"International ACM SIGIR Conference on Research and Development in Information Retrieval": SIGIR
+"ACM International Conference on Web Search and Data Mining": WSDM
+"ACM International Conference on Information and Knowledge Management": CIKM
+"IEEE International Conference on Data Mining": ICDM
+"ACM SIGMOD International Conference on Management of Data": SIGMOD
+"International Conference on Very Large Data Bases": VLDB
+"Proceedings of the VLDB Endowment": Proc. VLDB Endow.
+"IEEE International Conference on Data Engineering": ICDE
+"IEEE Transactions on Knowledge and Data Engineering": IEEE Trans. Knowl. Data Eng.
+"ACM Transactions on Database Systems": ACM Trans. Database Syst.
+
+# --- Networking and mobile systems ---
+"ACM SIGCOMM Conference": SIGCOMM
+"Annual Conference of the ACM Special Interest Group on Data Communication": SIGCOMM
+"USENIX Symposium on Networked Systems Design and Implementation": NSDI
+"IEEE International Conference on Computer Communications": INFOCOM
+"IEEE Conference on Computer Communications": INFOCOM
+"ACM International Conference on Mobile Computing and Networking": MobiCom
+"Annual International Conference on Mobile Computing and Networking": MobiCom
+"International Conference on Mobile Computing and Networking": MobiCom
+"ACM International Conference on Mobile Systems, Applications, and Services": MobiSys
+"International Conference on Mobile Systems, Applications, and Services": MobiSys
+"Annual International Conference on Mobile Systems, Applications, and Services": MobiSys
+"ACM International Conference on emerging Networking EXperiments and Technologies": CoNEXT
+"International Conference on emerging Networking EXperiments and Technologies": CoNEXT
+"ACM Internet Measurement Conference": IMC
+"ACM International Symposium on Mobile Ad Hoc Networking and Computing": MobiHoc
+"International Symposium on Theory, Algorithmic Foundations, and Protocol Design for Mobile Networks and Mobile Computing": MobiHoc
+"ACM Conference on Embedded Networked Sensor Systems": SenSys
+"Conference on Embedded Networked Sensor Systems": SenSys
+"International Conference on Information Processing in Sensor Networks": IPSN
+"ACM/IEEE International Conference on Information Processing in Sensor Networks": IPSN
+"ACM on Interactive, Mobile, Wearable and Ubiquitous Technologies": IMWUT
+"Proceedings of the ACM on Interactive, Mobile, Wearable and Ubiquitous Technologies": IMWUT
+"IEEE/ACM Transactions on Networking": IEEE/ACM Trans. Netw.
+"IEEE Transactions on Mobile Computing": IEEE Trans. Mobile Comput.
+"ACM Transactions on Sensor Networks": ACM Trans. Sens. Netw.
+"ACM Computing Surveys": ACM Comput. Surv.
+"Computer Networks": Comput. Netw.
+
+# --- Systems, architecture and programming languages ---
+"ACM Symposium on Operating Systems Principles": SOSP
+"Symposium on Operating Systems Principles": SOSP
+"USENIX Symposium on Operating Systems Design and Implementation": OSDI
+"USENIX Annual Technical Conference": USENIX ATC
+"European Conference on Computer Systems": EuroSys
+"International Conference on Architectural Support for Programming Languages and Operating Systems": ASPLOS
+"International Symposium on Computer Architecture": ISCA
+"Annual International Symposium on Computer Architecture": ISCA
+"IEEE/ACM International Symposium on Microarchitecture": MICRO
+"International Symposium on Microarchitecture": MICRO
+"IEEE International Symposium on High Performance Computer Architecture": HPCA
+"ACM SIGPLAN Conference on Programming Language Design and Implementation": PLDI
+"ACM SIGPLAN Symposium on Principles of Programming Languages": POPL
+"ACM Transactions on Computer Systems": ACM Trans. Comput. Syst.
+"IEEE Transactions on Parallel and Distributed Systems": IEEE Trans. Parallel Distrib. Syst.
+"IEEE Transactions on Computers": IEEE Trans. Comput.
+
+# --- Theory ---
+"ACM Symposium on Theory of Computing": STOC
+"Annual ACM Symposium on Theory of Computing": STOC
+"IEEE Symposium on Foundations of Computer Science": FOCS
+"Annual IEEE Symposium on Foundations of Computer Science": FOCS
+"ACM-SIAM Symposium on Discrete Algorithms": SODA
+"Annual ACM-SIAM Symposium on Discrete Algorithms": SODA
+"International Colloquium on Automata, Languages, and Programming": ICALP
+"Journal of the ACM": J. ACM
+"SIAM Journal on Computing": SIAM J. Comput.
+
+# --- Security ---
+"IEEE Symposium on Security and Privacy": IEEE S&P
+"USENIX Security Symposium": USENIX Security
+"ACM SIGSAC Conference on Computer and Communications Security": CCS
+"ACM Conference on Computer and Communications Security": CCS
+"Network and Distributed System Security Symposium": NDSS
+"IEEE Transactions on Information Forensics and Security": IEEE Trans. Inf. Forensics Secur.
+"IEEE Transactions on Dependable and Secure Computing": IEEE Trans. Dependable Secure Comput.
+
+# --- Software engineering and human-computer interaction ---
+"International Conference on Software Engineering": ICSE
+"ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering": ESEC/FSE
+"IEEE/ACM International Conference on Automated Software Engineering": ASE
+"IEEE Transactions on Software Engineering": IEEE Trans. Softw. Eng.
+"ACM Transactions on Software Engineering and Methodology": ACM Trans. Softw. Eng. Methodol.
+"ACM Conference on Human Factors in Computing Systems": CHI
+"CHI Conference on Human Factors in Computing Systems": CHI
+"ACM Symposium on User Interface Software and Technology": UIST
+
+# --- General ---
+"Communications of the ACM": Commun. ACM
+"Nature": Nature
+"Science": Science
+"Physical Review X": Phys. Rev. X
+"Physical Review Letters": Phys. Rev. Lett.
+"SIAM Review": SIAM Rev.
